@@ -12,6 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int getCompletedTasksCount() {
+    return db.toDoList.where((task) => task['taskCompleted']).length;
+  }
+
+  int getTotalTasksCount() {
+    return db.toDoList.length;
+  }
+
   //reference the hive box
   final _myBox = Hive.box('myBox');
   ToDoDataBase db = ToDoDataBase();
@@ -31,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   //text controller
   final _controller = TextEditingController();
 
-//function to change the state of the checkbox
+  //function to change the state of the checkbox
   void checkBoxChanged(bool? value, int index) {
     setState(() {
       db.toDoList[index]['taskCompleted'] =
@@ -40,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     db.updateData();
   }
 
-//save the new task
+  //save the new task
   void saveNewTask() {
     if (_controller.text.isEmpty) {
       showDialog(
@@ -70,7 +78,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-//Create new task
+  //Create new task
   void addNewTask() {
     showDialog(
         context: context,
@@ -99,13 +107,23 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.green[200],
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'TO DO LIST APP',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+        title: Center(
+          child: Column(
+            children: [
+              const Text(
+                'TO DO LIST APP',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Tienes ${getCompletedTasksCount()} de ${getTotalTasksCount()}',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ),
         backgroundColor: Colors.green[600],
@@ -116,17 +134,24 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         backgroundColor: Colors.green[300],
       ),
-      body: ListView.builder(
-          itemCount: db.toDoList.length,
-          itemBuilder: (context, index) {
-            return TodoTitle(
-              taskName: db.toDoList[index]['taskName'],
-              taskCompleted: db.toDoList[index]['taskCompleted'],
-              onChanged: (value) => checkBoxChanged(value, index),
-              onDelete: ((p0) => deleteTask(index)),
-              index: index,
-            );
-          }),
+      body: db.toDoList.isEmpty
+          ? const Center(
+              child: Text(
+                '¡Felicidades! No tienes tareas pendientes.',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
+          : ListView.builder(
+              itemCount: db.toDoList.length,
+              itemBuilder: (context, index) {
+                return TodoTitle(
+                  taskName: db.toDoList[index]['taskName'],
+                  taskCompleted: db.toDoList[index]['taskCompleted'],
+                  onChanged: (value) => checkBoxChanged(value, index),
+                  onDelete: ((p0) => deleteTask(index)),
+                  index: index,
+                );
+              }),
     );
   }
 }

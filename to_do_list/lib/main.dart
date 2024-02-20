@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:to_do_list/pages/my_home_page.dart';
+import 'package:flutter/services.dart';
+import 'package:to_do_list/pages/home.dart';
 
-void main() async {
-  // init the hive
-  await Hive.initFlutter();
-
-  // open a box
-  var box = await Hive.openBox('myBox');
-
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    SystemChrome.setSystemUIOverlayStyle(
+       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      theme: ThemeData(primarySwatch: Colors.yellow),
+      title: 'ToDo App',
+      home: Home(),
     );
   }
 }

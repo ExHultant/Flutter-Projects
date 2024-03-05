@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pokeapi/const/pokemon_services.dart';
 import 'package:pokeapi/models/pokemon.dart';
 
+import 'widgets/pokemon_detail_drawer.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -49,16 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               Expanded(
-                flex: 1, // Reducir el ancho del detalle del Pokemon
+                flex: 1,
                 child: selectedPokemon != null
                     ? pokemonDetail(selectedPokemon!)
-                    : const Center(child: Text('Select a Pokemon')),
+                    : const Center(child: CircularProgressIndicator()),
               ),
               Expanded(
                 flex: 2, // Aumentar el ancho de la lista de Pokemon
                 child: Container(
-                  margin: const EdgeInsets.all(
-                      10), // Agregar margen alrededor de la lista
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.black,
                     border: Border.all(
@@ -70,20 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: pokemonList.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.all(
-                            8.0), // Ajusta el valor a tu preferencia
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: selectedPokemon == pokemonList[index]
                               ? BoxDecoration(
                                   border: Border.all(
-                                    color: const Color.fromARGB(255, 23, 83,
-                                        25), // Color del borde cuando está seleccionado
+                                    color:
+                                        const Color.fromARGB(255, 23, 83, 25),
                                     width: 2, // Ancho del borde
                                   ),
-                                  borderRadius: BorderRadius.circular(
-                                      10), // Bordes redondeados
+                                  borderRadius: BorderRadius.circular(10),
                                 )
-                              : null, // Sin decoración cuando no está seleccionado
+                              : null,
                           child: ListTile(
                             onTap: () {
                               setState(() {
@@ -141,14 +140,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 pokemon.imageUrl,
                 width: 200,
                 height: 200,
-                fit: BoxFit.contain,
+                fit: BoxFit.fitHeight,
               ),
             ),
+          ),
+          const SizedBox(
+            height: 430,
           ),
           Builder(
             builder: (BuildContext context) {
               return ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  side: const BorderSide(color: Colors.white, width: 2),
+                  shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.zero),
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.black,
                 ),
@@ -176,19 +181,17 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(
-                      8.0), // Ajusta el valor a tu preferencia
+                  padding: const EdgeInsets.all(8.0),
                   child: RichText(
                     text: TextSpan(
-                      text: 'Type: ',
+                      text: 'Tipo: ',
                       style: GoogleFonts.pixelifySans(
                         textStyle:
                             const TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       children: pokemon.types.map((type) {
                         return TextSpan(
-                          text:
-                              '${type.type.name}, ', // Suponiendo que 'value' es la propiedad que contiene el valor del tipo
+                          text: '${type.type.name}, ',
                           style: TextStyle(
                             color: pokemon.getColorForType(type.type.name),
                             fontSize: 20,
@@ -201,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(
                       8.0), // Ajusta el valor a tu preferencia
-                  child: Text("Pokedex No: ${pokemon.id}",
+                  child: Text("Pokedex Nro: ${pokemon.id}",
                       style: GoogleFonts.pixelifySans(
                         textStyle:
                             const TextStyle(color: Colors.white, fontSize: 20),
@@ -210,146 +213,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           )
-        ],
-      ),
-    );
-  }
-}
-
-class PokemonDetailDrawer extends StatelessWidget {
-  final Pokemon pokemon;
-
-  const PokemonDetailDrawer(this.pokemon, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 212, 98, 45),
-              ),
-              child: Text(
-                'Detalles del Pokemon',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              )),
-          ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Nombre: ${pokemon.name}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Altura: ${pokemon.height} m',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Peso: ${pokemon.weight} kg',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Habilidades: ${pokemon.abilities.map((ability) => ability.ability.name).join(', ')}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Experiencia base: ${pokemon.baseExperience} XP',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Velocidad: ${pokemon.stats[0].baseStat}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Defensa especial: ${pokemon.stats[1].baseStat}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Ataque: ${pokemon.stats[4].baseStat}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'HP: ${pokemon.stats[5].baseStat}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Especies: ${pokemon.species.name}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'ID: ${pokemon.id}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Orden: ${pokemon.order}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Pokemon Inicial: ${pokemon.isDefault}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Localizacion: ${pokemon.locationAreaEncounters}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  'Tipo: ${pokemon.types.map((type) => type.type.name).join(', ')}',
-                  style: GoogleFonts.pixelifySans(
-                    textStyle:
-                        const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 //CLase PRINCIPAL
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context);
 
-    void _CounterPlus() {
+    void CounterPlus() {
       setState(() {
         _number++;
       });
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           ),
           _number < 0 ? const Text("Eres loco mano?") : SizedBox(),
           ElevatedButton.icon(
-              onPressed: _CounterPlus,
+              onPressed: CounterPlus,
               icon: const Icon(Icons.plus_one),
               label: const Text("Suma")),
           ElevatedButton.icon(

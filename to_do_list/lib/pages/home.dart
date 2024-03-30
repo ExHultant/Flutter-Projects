@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: tdBlue,
+                      backgroundColor: tdBlue,
                       minimumSize: const Size(60, 60),
                       elevation: 10,
                     ),

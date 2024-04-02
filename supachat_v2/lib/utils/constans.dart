@@ -15,7 +15,7 @@ const formSpacer = SizedBox(width: 16, height: 16);
 const formPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 16);
 
 /// Error message to display the user when unexpected error occurs.
-const unexpectedErrorMessage = 'Unexpected error occurred.';
+const unexpectedErrorMessage = 'Error inesperado. Por favor, intenta de nuevo.';
 
 /// Basic theme to change the look and feel of the app
 final appTheme = ThemeData.light().copyWith(

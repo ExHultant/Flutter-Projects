@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (error.message == 'Email rate limit exceeded') {
         context.showErrorSnackBar(
             message:
-                'You have exceeded the email request limit. Please try again later.');
+                'Has excedido el limite de registro. Por favor, intenta dentro de 10 mins :c');
       } else {
         context.showErrorSnackBar(message: error.message);
       }

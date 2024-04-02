@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:supachat_v2/models/messages.dart';
 import 'package:supachat_v2/models/profile.dart';
-import 'package:supachat_v2/pages/login_page.dart';
 import 'package:supachat_v2/utils/constans.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';

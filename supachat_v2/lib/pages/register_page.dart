@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Registrate'),
       ),
       body: Form(
         key: _formKey,
@@ -68,11 +68,11 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-                label: Text('Email'),
+                label: Text('Correo electronico'),
               ),
               validator: (val) {
                 if (val == null || val.isEmpty) {
-                  return 'Required';
+                  return 'Requerido';
                 }
                 return null;
               },
@@ -83,14 +83,14 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
-                label: Text('Password'),
+                label: Text('Contraseña'),
               ),
               validator: (val) {
                 if (val == null || val.isEmpty) {
-                  return 'Required';
+                  return 'Requerido';
                 }
                 if (val.length < 6) {
-                  return '6 characters minimum';
+                  return '6 o mas caracteres';
                 }
                 return null;
               },
@@ -99,15 +99,15 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _usernameController,
               decoration: const InputDecoration(
-                label: Text('Username'),
+                label: Text('Nombre de usuario'),
               ),
               validator: (val) {
                 if (val == null || val.isEmpty) {
-                  return 'Required';
+                  return 'Requerido';
                 }
                 final isValid = RegExp(r'^[A-Za-z0-9_]{3,24}$').hasMatch(val);
                 if (!isValid) {
-                  return '3-24 long with alphanumeric or underscore';
+                  return '3-24 caracteres alfanumericos y/o guion bajo';
                 }
                 return null;
               },
@@ -115,14 +115,14 @@ class _RegisterPageState extends State<RegisterPage> {
             formSpacer,
             ElevatedButton(
               onPressed: _isLoading ? null : _signUp,
-              child: const Text('Register'),
+              child: const Text('Registrarse'),
             ),
             formSpacer,
             TextButton(
               onPressed: () {
                 Navigator.of(context).push(LoginPage.route());
               },
-              child: const Text('I already have an account'),
+              child: const Text('Ya tienes una cuenta? Inicia sesion'),
             )
           ],
         ),

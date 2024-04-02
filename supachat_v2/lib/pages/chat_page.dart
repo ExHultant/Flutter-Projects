@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:supachat_v2/models/messages.dart';
 import 'package:supachat_v2/models/profile.dart';
+import 'package:supachat_v2/pages/login_page.dart';
 import 'package:supachat_v2/utils/constans.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
-
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -54,7 +54,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chat')),
+      appBar: AppBar(title: const Text('Chat'), actions: [
+        IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () async {
+            await supabase.auth.signOut();
+            Navigator.pushReplacementNamed(context, '/login');
+          },
+        ),
+      ]),
       body: StreamBuilder<List<Message>>(
         stream: _messagesStream,
         builder: (context, snapshot) {
@@ -65,7 +73,7 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: messages.isEmpty
                       ? const Center(
-                          child: Text('Start your conversation now :)'),
+                          child: Text('¡Comienza tu conversación ahora! :)'),
                         )
                       : ListView.builder(
                           reverse: true,
@@ -122,7 +130,7 @@ class _MessageBarState extends State<_MessageBar> {
                   autofocus: true,
                   controller: _textController,
                   decoration: const InputDecoration(
-                    hintText: 'Type a message',
+                    hintText: 'Escribe un mensaje...',
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     contentPadding: EdgeInsets.all(8),
@@ -131,7 +139,7 @@ class _MessageBarState extends State<_MessageBar> {
               ),
               TextButton(
                 onPressed: () => _submitMessage(),
-                child: const Text('Send'),
+                child: const Text('Enviar'),
               ),
             ],
           ),
@@ -208,7 +216,7 @@ class _ChatBubble extends StatelessWidget {
         ),
       ),
       const SizedBox(width: 12),
-      Text(format(message.createdAt, locale: 'en_short')),
+      Text(format(message.createdAt, locale: 'es_short')),
       const SizedBox(width: 60),
     ];
     if (message.isMine) {
